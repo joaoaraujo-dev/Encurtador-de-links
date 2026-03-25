@@ -21,7 +21,7 @@ Encurtador de links simples com design moderno, rapido e de facil uso, foi feito
 - MYSQL
 
 ## Banco de dados
-o projeto utiliza MySQL, na pasta 'database' tem um arquivo 'database.sql' responsavel por fazer a tabela principal do encurtador
+o projeto utiliza MySQL, na pasta `database` tem um arquivo `database.sql` responsavel por fazer a tabela principal do encurtador
 
 ## Requisitos
 ### Para rodar o projeto e necessario:
