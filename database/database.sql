@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS encurtador;
+
+USE encurtador;
+
+CREATE TABLE links (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   original_url TEXT NOT NULL,
+   shortcode VARCHAR(20) NOT NULL UNIQUE,
+   creator_ip VARCHAR(45) NOT NULL,
+   user_agent TEXT NOT NULL,
+   creation_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
