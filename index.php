@@ -1,20 +1,18 @@
 <?php
 require "database/connect.php";
 
-function getIP() {
-    return $_SERVER["REMOTE_ADDR"];
+function getInfo(): array {
+    return [
+        "ip" => $_SERVER["REMOTE_ADDR"] ?? "0.0.0.0",
+        "user-agent" => $_SERVER["HTTP_USER_AGENT"] ?? "empty"
+    ];
 }
 
-function getUserAgent() {
-    return $_SERVER["HTTP_USER_AGENT"];
-}
-
-function generateShortcode() {
+function generateShortcode(): int {
     return substr(md5(mt_rand()),6, 7);
 }
 
 $redirect = trim($_GET["redirect"]) ?? null;
-
 
 //script de redirecionamento
 if (isset($redirect)) {
@@ -38,10 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
    if (filter_var($url, FILTER_VALIDATE_URL)) {
 
+      ["ip" => $ip, "user-agent" => $user_agent] = getInfo();
+
       try {
         $sql = "INSERT INTO links(original_url, shortcode, creator_ip, user_agent) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->execute([$url, $shortcode, getIP(), getUserAgent()]);
+        $stmt->execute([$url, $shortcode, $ip, $user_agent]);
 
         $message = "Sucesso! Seu link foi encurtado.";
       } catch (PDOException $e) {
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="row justify-content-center">
                     <div class="col-lg-9">
                         <h1 class="display-3 fw-bolder font-headline mb-4 text-dark">
-                            Arquitete sua <span class="text-primary-shorten">Presença Digital</span>.
+                            Melhore sua <span class="text-primary-shorten">Presença Digital</span>.
                         </h1>
                         <p class="fs-5 mb-5 mx-auto text-secondary-shorten">
                             Links curtos, limpos e rápidos. A estrutura que você precisa para compartilhar conteúdo com eficiência.
@@ -180,8 +180,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <section id="start" class="py-5 bg-surface">
             <div class="container py-5">
                 <div class="text-center mb-5">
-                    <h2 class="display-5 fw-bolder font-headline mb-3 text-dark">A Tríade da Permanência</h2>
-                    <p class="fs-5 text-secondary-shorten">O encurtador definitivo para quem busca um digital limpo e eficiente</p>
+                    <h2 class="display-5 fw-bolder font-headline mb-3 text-dark">Direto ao ponto</h2>
+                    <p class="fs-5 text-secondary-shorten">O encurtador definitivo para quem busca um link limpo e eficiente</p>
                 </div>
                 
                 <div class="row g-4 pt-3">
@@ -191,7 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <span class="material-symbols-outlined fs-2">content_paste</span>
                             </div>
                             <h3 class="fw-bold font-headline mb-3 text-dark">01. Colar</h3>
-                            <p class="text-secondary-shorten">Insira sua URL complexa na interface. Removemos o excesso e focamos na essência.</p>
+                            <p class="text-secondary-shorten">Insira sua URL complexa na interface. Removemos o excesso e deixamos mais limpo.</p>
                         </div>
                     </div>
                     
@@ -211,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <span class="material-symbols-outlined fs-2">rocket_launch</span>
                             </div>
                             <h3 class="fw-bold font-headline mb-3 text-dark">03. Compartilhar</h3>
-                            <p class="text-secondary-shorten">Distribua seus links com confiança.confiável e esteticamente bonito.</p>
+                            <p class="text-secondary-shorten">Distribua seus links com confiança.confiável e seguro.</p>
                         </div>
                     </div>
                 </div>
@@ -229,7 +229,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
                     
                     <div class="col-lg-6 ps-lg-5">
-                        <h2 class="display-5 fw-bolder font-headline mb-4">Construído para Permanência</h2>
+                        <h2 class="display-5 fw-bolder font-headline mb-4">Foco em Estabilidade</h2>
                         <p class="fs-5 mb-5 text-accent-shorten">Encurte seus links e facilite o compartilhamento. Simples, rápido e feito para nunca deixar você na mão.</p>
                         
                         <div class="d-flex align-items-center gap-3">
